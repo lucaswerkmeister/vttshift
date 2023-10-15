@@ -1,6 +1,6 @@
 # VTTShift
 
-A simple tool to shift time ranges in of WebVTT files.
+A simple tool to shift time ranges in WebVTT files.
 
 ## Installation
 
