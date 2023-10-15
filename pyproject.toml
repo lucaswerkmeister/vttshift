@@ -1,5 +1,5 @@
 [project]
-name = "vttsnip"
+name = "vttshift"
 version = "0.0.1"
 authors = [
     { name = "Lucas Werkmeister", email = "mail@lucaswerkmeister.de" },

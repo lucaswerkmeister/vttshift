@@ -1,7 +1,7 @@
 import datetime
 import pytest
 
-from vttsnip import (
+from vttshift import (
     timestamp_to_timedelta,
     timedelta_to_timestamp,
     Adjustment,
