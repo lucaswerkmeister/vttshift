@@ -28,18 +28,20 @@ adjustments = [
 ]
 adjustments.sort(reverse=True)
 
+def process_line(line: str) -> str:
+    if '-->' not in line:
+        return line
+    ts_from, ws1, arrow, ws2, ts_to, rest = re.match(r'([^ \t]+)([ \t]+)(-->)([ \t]+)([^ \t]+)(.*)', line, re.DOTALL).groups()
+    td_from = timestamp_to_timedelta(ts_from)
+    td_to = timestamp_to_timedelta(ts_to)
+    for adj_td_from, adj_td_add in adjustments:
+        if td_from >= adj_td_from:
+            td_from += adj_td_add
+            td_to += adj_td_add
+    ts_from = timedelta_to_timestamp(td_from)
+    ts_to = timedelta_to_timestamp(td_to)
+    return ts_from + ws1 + arrow + ws2 + ts_to + rest
+
 def main() -> None:
     for line in sys.stdin:
-        if '-->' not in line:
-            print(line, end='')
-            continue
-        ts_from, ws1, arrow, ws2, ts_to, rest = re.match(r'([^ \t]+)([ \t]+)(-->)([ \t]+)([^ \t]+)(.*)', line, re.DOTALL).groups()
-        td_from = timestamp_to_timedelta(ts_from)
-        td_to = timestamp_to_timedelta(ts_to)
-        for adj_td_from, adj_td_add in adjustments:
-            if td_from >= adj_td_from:
-                td_from += adj_td_add
-                td_to += adj_td_add
-        ts_from = timedelta_to_timestamp(td_from)
-        ts_to = timedelta_to_timestamp(td_to)
-        print(ts_from + ws1 + arrow + ws2 + ts_to + rest, end='')
+        print(process_line(line), end='')
