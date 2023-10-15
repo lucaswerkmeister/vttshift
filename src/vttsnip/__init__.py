@@ -5,7 +5,8 @@ import sys
 
 def timestamp_to_timedelta(webvtt_timestamp: str) -> datetime.timedelta:
     match = re.fullmatch(
-        r"(?:([0-9]{2,}):)?([0-9]{2}):([0-9]{2}).([0-9]{3})", webvtt_timestamp
+        r"(?:([0-9]{2,}):)?([0-9]{2}):([0-9]{2}).([0-9]{3})",
+        webvtt_timestamp,
     )
     assert match
     hours, minutes, seconds, frac = match.groups()
@@ -40,7 +41,9 @@ def process_line(line: str) -> str:
     if "-->" not in line:
         return line
     match = re.fullmatch(
-        r"([^ \t]+)([ \t]+)(-->)([ \t]+)([^ \t]+)(.*)", line, re.DOTALL
+        r"([^ \t]+)([ \t]+)(-->)([ \t]+)([^ \t]+)(.*)",
+        line,
+        re.DOTALL,
     )
     assert match
     ts_from, ws1, arrow, ws2, ts_to, rest = match.groups()
