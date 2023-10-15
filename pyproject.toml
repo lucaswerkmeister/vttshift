@@ -13,6 +13,7 @@ dev = [
     "black",
     "mypy",
     "pytest",
+    "ruff",
 ]
 
 [tool.mypy]

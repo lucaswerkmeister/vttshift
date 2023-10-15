@@ -4,6 +4,7 @@ all: requirements.txt dev-requirements.txt check
 
 check:
 	black .
+	ruff .
 	mypy
 	pytest
 

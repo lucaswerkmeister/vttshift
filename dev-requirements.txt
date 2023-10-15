@@ -28,5 +28,7 @@ pluggy==1.3.0
     # via pytest
 pytest==7.4.2
     # via vttsnip (pyproject.toml)
+ruff==0.0.292
+    # via vttsnip (pyproject.toml)
 typing-extensions==4.8.0
     # via mypy
