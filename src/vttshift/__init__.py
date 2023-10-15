@@ -5,12 +5,12 @@ import sys
 
 def timestamp_to_timedelta(webvtt_timestamp: str) -> datetime.timedelta:
     """Parse a WebVTT timestamp into a datetime.timedelta."""
-    match = re.fullmatch(
+    m = re.fullmatch(
         r"(?:([0-9]{2,}):)?([0-9]{2}):([0-9]{2}).([0-9]{3})",
         webvtt_timestamp,
     )
-    assert match
-    hours, minutes, seconds, frac = match.groups()
+    assert m
+    hours, minutes, seconds, frac = m.groups()
     return datetime.timedelta(
         hours=int(hours or "0"),
         minutes=int(minutes),
@@ -41,12 +41,12 @@ def parse_adjustment(input: str) -> Adjustment:
     and a positive or negative number of milliseconds,
     with the sign of the milliseconds (+ or -) serving as the separator,
     as in 00:11:22.333+4444 or 00:11:22.333-4444."""
-    match = re.fullmatch(
+    m = re.fullmatch(
         r"([^+-]*)([+-].*)",
         input,
     )
-    assert match
-    timestamp, milliseconds = match.groups()
+    assert m
+    timestamp, milliseconds = m.groups()
     return (
         timestamp_to_timedelta(timestamp),
         datetime.timedelta(milliseconds=int(milliseconds)),
@@ -62,13 +62,13 @@ def process_line(line: str, adjustments: list[Adjustment]) -> str:
     so that each adjustment is considered independently."""
     if "-->" not in line:
         return line
-    match = re.fullmatch(
+    m = re.fullmatch(
         r"([^ \t]+)([ \t]+)(-->)([ \t]+)([^ \t]+)(.*)",
         line,
         re.DOTALL,
     )
-    assert match
-    ts_from, ws1, arrow, ws2, ts_to, rest = match.groups()
+    assert m
+    ts_from, ws1, arrow, ws2, ts_to, rest = m.groups()
     td_from = timestamp_to_timedelta(ts_from)
     td_to = timestamp_to_timedelta(ts_to)
     for adj_td_from, adj_td_add in adjustments:
