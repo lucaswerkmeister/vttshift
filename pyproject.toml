@@ -16,6 +16,9 @@ dev = [
     "ruff",
 ]
 
+[project.scripts]
+vttshift = "vttshift:main"
+
 [tool.mypy]
 disallow_untyped_defs = true
 files = "."
