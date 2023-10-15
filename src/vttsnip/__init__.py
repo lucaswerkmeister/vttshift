@@ -3,7 +3,9 @@ import re
 import sys
 
 def timestamp_to_timedelta(webvtt_timestamp: str) -> datetime.timedelta:
-    hours, minutes, seconds, frac = re.match(r'(?:([0-9]{2,}):)?([0-9]{2}):([0-9]{2}).([0-9]{3})', webvtt_timestamp).groups()
+    match = re.fullmatch(r'(?:([0-9]{2,}):)?([0-9]{2}):([0-9]{2}).([0-9]{3})', webvtt_timestamp)
+    assert match
+    hours, minutes, seconds, frac = match.groups()
     return datetime.timedelta(
         hours=int(hours or '0'),
         minutes=int(minutes),
@@ -31,7 +33,9 @@ adjustments.sort(reverse=True)
 def process_line(line: str) -> str:
     if '-->' not in line:
         return line
-    ts_from, ws1, arrow, ws2, ts_to, rest = re.match(r'([^ \t]+)([ \t]+)(-->)([ \t]+)([^ \t]+)(.*)', line, re.DOTALL).groups()
+    match = re.fullmatch(r'([^ \t]+)([ \t]+)(-->)([ \t]+)([^ \t]+)(.*)', line, re.DOTALL)
+    assert match
+    ts_from, ws1, arrow, ws2, ts_to, rest = match.groups()
     td_from = timestamp_to_timedelta(ts_from)
     td_to = timestamp_to_timedelta(ts_to)
     for adj_td_from, adj_td_add in adjustments:

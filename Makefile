@@ -3,6 +3,7 @@
 all: requirements.txt dev-requirements.txt check
 
 check:
+	mypy
 	pytest
 
 requirements.txt: pyproject.toml
