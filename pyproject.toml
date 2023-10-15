@@ -17,4 +17,5 @@ dev = [
 ]
 
 [tool.mypy]
+disallow_untyped_defs = true
 files = "."

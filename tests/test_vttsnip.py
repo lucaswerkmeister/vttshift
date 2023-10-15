@@ -20,7 +20,7 @@ nonnormal_timestamps_timedeltas = [
     "timestamp, timedelta",
     timestamps_timedeltas + nonnormal_timestamps_timedeltas,
 )
-def test_timestamp_to_timedelta(timestamp, timedelta):
+def test_timestamp_to_timedelta(timestamp: str, timedelta: datetime.timedelta) -> None:
     assert timestamp_to_timedelta(timestamp) == timedelta
 
 
@@ -28,7 +28,7 @@ def test_timestamp_to_timedelta(timestamp, timedelta):
     "timestamp, timedelta",
     timestamps_timedeltas,
 )
-def test_timedelta_to_timestamp(timestamp, timedelta):
+def test_timedelta_to_timestamp(timestamp: str, timedelta: datetime.timedelta) -> None:
     assert timedelta_to_timestamp(timedelta) == timestamp
 
 
@@ -43,7 +43,7 @@ def test_timedelta_to_timestamp(timestamp, timedelta):
         "<c.red>random subtitle</c>\n",
     ],
 )
-def test_process_line_unmodified(line):
+def test_process_line_unmodified(line: str) -> None:
     assert process_line(line) == line
 
 
@@ -64,5 +64,5 @@ def test_process_line_unmodified(line):
         ),
     ],
 )
-def test_process_line(line, expected):
+def test_process_line(line: str, expected: str) -> None:
     assert process_line(line) == expected
