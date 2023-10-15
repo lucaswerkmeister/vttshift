@@ -4,6 +4,7 @@ import sys
 
 
 def timestamp_to_timedelta(webvtt_timestamp: str) -> datetime.timedelta:
+    """Parse a WebVTT timestamp into a datetime.timedelta."""
     match = re.fullmatch(
         r"(?:([0-9]{2,}):)?([0-9]{2}):([0-9]{2}).([0-9]{3})",
         webvtt_timestamp,
@@ -19,6 +20,7 @@ def timestamp_to_timedelta(webvtt_timestamp: str) -> datetime.timedelta:
 
 
 def timedelta_to_timestamp(timedelta: datetime.timedelta) -> str:
+    """Format a datetime.timedelta into a WebVTT timestamp."""
     hours = timedelta.seconds // 3600
     minutes = timedelta.seconds % 3600 // 60
     seconds = timedelta.seconds % 60
@@ -33,6 +35,12 @@ Adjustment = tuple[
 
 
 def parse_adjustment(input: str) -> Adjustment:
+    """Parse an adjustment to the subtitles.
+
+    An adjustment consists of a WebVTT timestamp
+    and a positive or negative number of milliseconds,
+    with the sign of the milliseconds (+ or -) serving as the separator,
+    as in 00:11:22.333+4444 or 00:11:22.333-4444."""
     match = re.fullmatch(
         r"([^+-]*)([+-].*)",
         input,
@@ -54,6 +62,8 @@ adjustments.sort(reverse=True)
 
 
 def process_line(line: str) -> str:
+    """Process one line of subtitles (which includes a trailing \n)
+    according to the hard-coded adjustments."""
     if "-->" not in line:
         return line
     match = re.fullmatch(
@@ -75,5 +85,6 @@ def process_line(line: str) -> str:
 
 
 def main() -> None:
+    """Read subtitles on stdin and write adjusted subtitles on stdout."""
     for line in sys.stdin:
         print(process_line(line), end="")
