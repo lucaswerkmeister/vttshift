@@ -18,7 +18,7 @@ Adjustments are specified in the command line arguments,
 as a timestamp followed by a positive or negative number of milliseconds:
 
 ```sh
-vttshift '15:00+2000' '17:00-3000' < in.vtt > out.vtt
+vttshift '15:00.000+2000' '17:00.000-3000' < in.vtt > out.vtt
 ```
 
 A positive adjustment like `+2000` (two seconds) is added to timestamps,
@@ -44,7 +44,7 @@ you can use the `sponge` utility from [moreutils](https://joeyh.name/code/moreut
 to overwrite the input file instead of having a separate output file:
 
 ```sh
-vttshift '15:00+2000' '17:00-3000' < file.vtt | sponge file.vtt
+vttshift '15:00.000+2000' '17:00.000-3000' < file.vtt | sponge file.vtt
 ```
 
 (Don’t use `< file.vtt > file.vtt` with the same file name –
