@@ -53,20 +53,13 @@ def parse_adjustment(input: str) -> Adjustment:
     )
 
 
-adjustments_ = [
-    "14:50.000+5000",
-    "27:02.000+8800",
-]
-adjustments = [parse_adjustment(adj_) for adj_ in adjustments_]
-adjustments.sort(reverse=True)
-
-
-def process_line(line: str) -> str:
+def process_line(line: str, adjustments: list[Adjustment]) -> str:
     """Process one line of subtitles (which includes a trailing \n)
-    according to the hard-coded adjustments.
+    according to the given adjustments.
 
-    Each adjustment is considered independently,
-    and only the first matching adjustment is used."""
+    The adjustments must be in descending order,
+    and only the first matching adjustment is used,
+    so that each adjustment is considered independently."""
     if "-->" not in line:
         return line
     match = re.fullmatch(
@@ -89,6 +82,10 @@ def process_line(line: str) -> str:
 
 
 def main() -> None:
-    """Read subtitles on stdin and write adjusted subtitles on stdout."""
+    """Parse adjustments from argv,
+    read subtitles on stdin
+    and write adjusted subtitles on stdout."""
+    adjustments = [parse_adjustment(arg) for arg in sys.argv[1:]]
+    adjustments.sort(reverse=True)
     for line in sys.stdin:
-        print(process_line(line), end="")
+        print(process_line(line, adjustments), end="")

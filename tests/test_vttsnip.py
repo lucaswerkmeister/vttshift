@@ -84,7 +84,13 @@ def test_parse_adjustment(input: str, adjustment: Adjustment) -> None:
     ],
 )
 def test_process_line_unmodified(line: str) -> None:
-    assert process_line(line) == line
+    adjustments = [
+        (
+            datetime.timedelta(seconds=1),
+            datetime.timedelta(milliseconds=1000),
+        ),
+    ]
+    assert process_line(line, adjustments) == line
 
 
 @pytest.mark.parametrize(
@@ -105,4 +111,14 @@ def test_process_line_unmodified(line: str) -> None:
     ],
 )
 def test_process_line(line: str, expected: str) -> None:
-    assert process_line(line) == expected
+    adjustments = [
+        (
+            datetime.timedelta(minutes=27, seconds=2),
+            datetime.timedelta(milliseconds=8800),
+        ),
+        (
+            datetime.timedelta(minutes=14, seconds=50),
+            datetime.timedelta(milliseconds=5000),
+        ),
+    ]
+    assert process_line(line, adjustments) == expected
