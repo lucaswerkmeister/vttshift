@@ -55,7 +55,7 @@ def parse_adjustment(input: str) -> Adjustment:
 
 adjustments_ = [
     "14:50.000+5000",
-    "27:02.000+3800",  # TODO 8800
+    "27:02.000+8800",
 ]
 adjustments = [parse_adjustment(adj_) for adj_ in adjustments_]
 adjustments.sort(reverse=True)
@@ -63,7 +63,10 @@ adjustments.sort(reverse=True)
 
 def process_line(line: str) -> str:
     """Process one line of subtitles (which includes a trailing \n)
-    according to the hard-coded adjustments."""
+    according to the hard-coded adjustments.
+
+    Each adjustment is considered independently,
+    and only the first matching adjustment is used."""
     if "-->" not in line:
         return line
     match = re.fullmatch(
@@ -79,6 +82,7 @@ def process_line(line: str) -> str:
         if td_from >= adj_td_from:
             td_from += adj_td_add
             td_to += adj_td_add
+            break
     ts_from = timedelta_to_timestamp(td_from)
     ts_to = timedelta_to_timestamp(td_to)
     return ts_from + ws1 + arrow + ws2 + ts_to + rest
