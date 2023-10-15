@@ -26,14 +26,30 @@ def timedelta_to_timestamp(timedelta: datetime.timedelta) -> str:
     return f"{hours:02}:{minutes:02}:{seconds:02}.{milliseconds:03}"
 
 
+Adjustment = tuple[
+    datetime.timedelta,
+    datetime.timedelta,
+]  # TODO use `type` statement in Python 3.12
+
+
+def parse_adjustment(input: str) -> Adjustment:
+    match = re.fullmatch(
+        r"([^+-]*)([+-].*)",
+        input,
+    )
+    assert match
+    timestamp, milliseconds = match.groups()
+    return (
+        timestamp_to_timedelta(timestamp),
+        datetime.timedelta(milliseconds=int(milliseconds)),
+    )
+
+
 adjustments_ = [
-    ("14:50.000", 5000),
-    ("27:02.000", 8800 - 5000),
+    "14:50.000+5000",
+    "27:02.000+3800",  # TODO 8800
 ]
-adjustments = [
-    (timestamp_to_timedelta(ts), datetime.timedelta(milliseconds=ms))
-    for ts, ms in adjustments_
-]
+adjustments = [parse_adjustment(adj_) for adj_ in adjustments_]
 adjustments.sort(reverse=True)
 
 

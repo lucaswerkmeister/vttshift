@@ -1,7 +1,13 @@
 import datetime
 import pytest
 
-from vttsnip import timestamp_to_timedelta, timedelta_to_timestamp, process_line
+from vttsnip import (
+    timestamp_to_timedelta,
+    timedelta_to_timestamp,
+    Adjustment,
+    parse_adjustment,
+    process_line,
+)
 
 
 timestamps_timedeltas = [
@@ -30,6 +36,40 @@ def test_timestamp_to_timedelta(timestamp: str, timedelta: datetime.timedelta) -
 )
 def test_timedelta_to_timestamp(timestamp: str, timedelta: datetime.timedelta) -> None:
     assert timedelta_to_timestamp(timedelta) == timestamp
+
+
+@pytest.mark.parametrize(
+    "input, adjustment",
+    [
+        ("00:00:00.000+0000", (datetime.timedelta(), datetime.timedelta())),
+        (
+            "01:23:45.678+9876",
+            (
+                datetime.timedelta(
+                    hours=1,
+                    minutes=23,
+                    seconds=45,
+                    milliseconds=678,
+                ),
+                datetime.timedelta(milliseconds=9876),
+            ),
+        ),
+        (
+            "55:44:33.222-1111",
+            (
+                datetime.timedelta(
+                    hours=55,
+                    minutes=44,
+                    seconds=33,
+                    milliseconds=222,
+                ),
+                datetime.timedelta(milliseconds=-1111),
+            ),
+        ),
+    ],
+)
+def test_parse_adjustment(input: str, adjustment: Adjustment) -> None:
+    assert parse_adjustment(input) == adjustment
 
 
 @pytest.mark.parametrize(
