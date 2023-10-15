@@ -23,13 +23,17 @@ vttshift '15:00+2000' '17:00-3000' < in.vtt > out.vtt
 
 A positive adjustment like `+2000` (two seconds) is added to timestamps,
 effectively creating a “gap” in the subtitles;
-this is useful if the subtitles are “ahead” of the video.
+this is useful if the subtitles are “ahead” of the video,
+and corresponds to a positive subtitle delay in VLC
+(what you get if you repeatedly press <kbd>h</kbd>).
 A negative adjustment like `-3000` (three seconds) is subtracted from timestamps,
 effectively removing a “gap” in the subtitles;
-this is useful if the subtitles “lag behind” the video.
-(No subtitles are ever removed:
-if there wasn’t a “gap” in the subtitles,
-some subtitles might overlap afterwards.)
+this is useful if the subtitles “lag behind” the video,
+and corresponds to a negative subtitle delay in VLC
+(what you get if you repeatedly press <kbd>g</kbd>).
+No subtitles are ever removed:
+if there wasn’t a “gap” in the subtitles to begin with,
+then some subtitles might overlap afterwards.
 Each adjustment is independent and only takes effect until the next adjustment;
 in the example above, two seconds are added to timestamps between 15:00 and 17:00,
 whereas after 17:00 three seconds are subtracted from timestamps.
