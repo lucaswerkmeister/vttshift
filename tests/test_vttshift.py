@@ -108,6 +108,10 @@ def test_process_line_unmodified(line: str) -> None:
             "00:30:01.234 --> 00:30:56.789 line:83% position:50% align:middle\n",
             "00:30:10.034 --> 00:31:05.589 line:83% position:50% align:middle\n",
         ),
+        (
+            "00:30:01.234 --> 00:30:56.789\n",
+            "00:30:10.034 --> 00:31:05.589\n",
+        ),
     ],
 )
 def test_process_line(line: str, expected: str) -> None:

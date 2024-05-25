@@ -63,7 +63,7 @@ def process_line(line: str, adjustments: list[Adjustment]) -> str:
     if "-->" not in line:
         return line
     m = re.fullmatch(
-        r"([^ \t]+)([ \t]+)(-->)([ \t]+)([^ \t]+)(.*)",
+        r"([^ \t]+)([ \t]+)(-->)([ \t]+)([^ \t\n]+)(.*)",
         line,
         re.DOTALL,
     )
