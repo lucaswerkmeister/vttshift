@@ -4,6 +4,8 @@ import pytest
 from vttshift import (
     timestamp_to_timedelta,
     timedelta_to_timestamp,
+)
+from vttshift.vttshift import (
     Adjustment,
     parse_adjustment,
     process_line,

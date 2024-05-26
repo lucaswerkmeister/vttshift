@@ -17,7 +17,7 @@ dev = [
 ]
 
 [project.scripts]
-vttshift = "vttshift:main"
+vttshift = "vttshift.vttshift:main"
 
 [tool.mypy]
 disallow_untyped_defs = true
